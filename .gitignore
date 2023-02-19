@@ -1,0 +1,5 @@
+env/
+*egg*/
+token
+__pycache__/
+.DS_Store
