@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=64.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "WingmanGPT"
+version = "1.0.0"
+dependencies = [
+    "revChatGPT",
+    "click",
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+WingmanGPT = "WingmanGPT.__main__:main"
+
+[tool.setuptools]
+packages = ["WingmanGPT"]
