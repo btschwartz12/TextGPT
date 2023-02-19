@@ -79,7 +79,11 @@ OPTIONAL:
 ```
 
 
-## Supported Modes
+## ChatGPT Prompt
+
+Everything that is used for the prompt, as well as the different modes, can be found in [prompts.json](prompts.json). 
+
+Here is a short description of each mode:
 
 - **ROMANTIC**: Generates a romantic message using ChatGPT.
 - **FUN**: Generates a fun message using ChatGPT.
