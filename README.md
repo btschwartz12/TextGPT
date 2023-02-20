@@ -60,7 +60,7 @@ Please note that when running the program, you will get a warning from your Mac 
 Usage: WingmanGPT [OPTIONS]
 
 REQUIRED:
-(-n, --number): 
+(-n, --number) [NUMBER]: 
     Phone number to send the message to.
 
 OPTIONAL:
