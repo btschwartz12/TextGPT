@@ -36,7 +36,7 @@ $ which WingmanGPT
 4. Get your API token from [OpenAI](https://chat.openai.com/api/auth/session), and initialize it for the tool. *Make sure you are signed in before doing this. You can get your token by accessing the linked url and copying the value for the 'accessToken' key.*
 
 ```bash
-$ make_token.sh [token]
+$ base make_token.sh [token]
 $ cat token
 ...
 your token
