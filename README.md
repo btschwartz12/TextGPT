@@ -88,7 +88,7 @@ HELP:
 
 ```bash
 # Token has already been set from step 4 of installation
-WingmanGPT -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs"
+$ WingmanGPT -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs"
 ```
 
 
@@ -105,7 +105,7 @@ $ WingmanGPT --show-modes
 
 ## Contributing
 
-Anybody but Ho Jung Kim is allowed to contribute.
+Anybody except Ho Jung Kim is allowed to contribute.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
