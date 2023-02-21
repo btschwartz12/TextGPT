@@ -74,7 +74,7 @@ OPTIONAL:
     Optional flag that will send the message without confirmation.
 
 (--mode) [MODE]: 
-    Modification mode for your message. Default is romantic, but check out prompts.json to see the modes the tool actually uses.Default is ROMANTIC.
+    Modification mode for your message. Check out prompts.json to see the modes the tool actually uses, as well as the default.
 
 HELP:
 (--show-modes): 
