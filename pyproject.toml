@@ -12,7 +12,7 @@ dependencies = [
 requires-python = ">=3.8"
 
 [project.scripts]
-WingmanGPT = "WingmanGPT.__main__:main"
+WingmanGPT = "src.__main__:main"
 
 [tool.setuptools]
-packages = ["WingmanGPT"]
+packages = ["src"]
