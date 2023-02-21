@@ -13,6 +13,26 @@
         {
             "name": "STORY",
             "modifier": "can you tell me a short story about this, that is dark yet promising?"
+        },
+        {
+            "name" : "POETIC",
+            "modifier" : "Can you make this sound more poetic?"
+        },
+        {
+            "name" : "SEDUCTIVE",
+            "modifier" : "Can you make this sound like I am trying to lure this girl?"
+        },
+        {
+            "name" : "DEROGATORY",
+            "modifier" : "Can you make this sound like I am trying to piss this person up?"
+        },
+        {
+            "name" : "PERSUASIVE",
+            "modifier" : "Can you make this sound more persuasive?"
+        },
+        {
+            "name" : "BUSINESS",
+            "modifier" : "Can you make this sound more formal? I am sending this message to my business partner"
         }
     ]
 }
