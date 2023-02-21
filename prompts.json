@@ -34,6 +34,10 @@
         {
             "name" : "BUSINESS",
             "modifier" : "Can you make this sound more formal? I am sending this message to my business partner"
+        },
+        {
+            "name" : "SAVAGE",
+            "modifier" : "Can you make this sound more savage? I am sending this message to someone I dislike"
         }
     ]
 }
