@@ -133,11 +133,11 @@ class WingmanGPT:
         """Get the prompt to be used for the ChatGPT API."""
         PROMPT = ""
 
-        PROMPT += self.__prompt_data.PREFIX
+        PROMPT += " ".join(self.__prompt_data.PREFIX)
         PROMPT += f" Here is the message: \"{self.__message}\"."
         PROMPT += " Here is how I want you to modify the message: "
         PROMPT += f"\"{self.__mode_modification}\"."
-        PROMPT += self.__prompt_data.SUFFIX
+        PROMPT += " ".join(self.__prompt_data.SUFFIX)
 
         return PROMPT
 
