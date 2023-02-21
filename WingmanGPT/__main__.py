@@ -28,7 +28,7 @@ class WingmanGPT:
     
     def __init__(self,  
                 number: str, 
-                confirm: bool, 
+                noconfirm: bool, 
                 token: str, 
                 message: str, 
                 mode: ResponseMode):
@@ -37,7 +37,7 @@ class WingmanGPT:
         self.__phone_number = self.__get_phone_number(number)
         self.__token = self.__get_token(token)
         self.__message = self.__get_message(message)
-        self.__wants_to_confirm = True if not confirm else confirm
+        self.__wants_to_confirm = not noconfirm
         # Prompt data
         self.__prompt_data: PromptData = self.__get_prompt_data()
         # Mode
@@ -201,10 +201,10 @@ class WingmanGPT:
 # Optional arguments
 @click.option('-t', '--token', help='ChatGPT API token.')
 # confirmation 
-@click.option('-c', '--confirm', is_flag=True, help='Confirm before sending the message.')
+@click.option('--noconfirm', is_flag=True, help='Do not confirm before sending the message.')
 @click.option('-m', '--message', help='Message to send.')
 @click.option('--mode', help='Mode to use for sending the message.')
-def main(number, confirm, token, message, mode):
+def main(number, noconfirm, token, message, mode):
     """Tool for sending messages to a phone number."""
     # Instantiate WingmanGPT object
 
@@ -215,9 +215,8 @@ def main(number, confirm, token, message, mode):
     #     token = None
     #     message = '234234234'
     #     mode = 'ROMANTI'
-
     try:
-        tgpt = WingmanGPT(number=number, confirm=confirm, token=token, message=message, mode=mode)
+        tgpt = WingmanGPT(number=number, noconfirm=noconfirm, token=token, message=message, mode=mode)
         tgpt.execute()
     except Exception as e:
         print(f"Error occurred: {str(e)}")
