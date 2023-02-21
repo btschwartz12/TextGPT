@@ -77,6 +77,12 @@ OPTIONAL:
     Modification mode for your message. Default is romantic, but check out the [prompt data](prompts.json) to see the modes the tool actually uses.Default is ROMANTIC.
 
 ```
+### Example Usage
+
+```bash
+WingmanGPT -n 1234567890 -m "Tell me something about dogs" --mode=FUN --noconfirm
+```
+
 
 
 ## ChatGPT Prompt
