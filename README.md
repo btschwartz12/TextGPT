@@ -70,8 +70,8 @@ OPTIONAL:
 (-m, --message) [MESSAGE]: 
     Message to be modified. Not required if you make a message file in step 5 of installation
 
-(-c --confirm): 
-    Optional flag that asks for confirmation before sending the message. Defaults to true.
+(--noconfirm): 
+    Optional flag that will send the message without confirmation.
 
 (--mode) [MODE]: 
     Modification mode for your message. Default is romantic, but check out the [prompt data](prompts.json) to see the modes the tool actually uses.Default is ROMANTIC.
