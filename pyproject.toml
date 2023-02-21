@@ -4,10 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "WingmanGPT"
-version = "1.0.0"
+version = "1.0.1"
+description = "A chatbot that uses ChatGPT to help you find a date"
+readme = "README.md"
+authors = [{ name = "Ben Schwartz", email = "btschwartz12@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["chatgpt", "text", "date"]
 dependencies = [
-    "revChatGPT",
-    "click",
+    "revChatGPT >= 2.3.0"
 ]
 requires-python = ">=3.8"
 
@@ -16,3 +25,8 @@ WingmanGPT = "src.__main__:main"
 
 [tool.setuptools]
 packages = ["src"]
+
+
+[project.urls]
+Homepage = "https://github.com/btschwartz12/WingmanGPT"
+
