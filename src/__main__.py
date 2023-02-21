@@ -21,7 +21,7 @@ class PromptData:
     PREFIX: str
     SUFFIX: str
     MODES: List[ResponseMode]
-    DEFAULT_MODE: str = "ROMANTIC"
+    DEFAULT_MODE: str
 
 class WingmanGPT:
     """WingmanGPT is a command-line tool that generates and sends text messages."""
@@ -62,7 +62,7 @@ class WingmanGPT:
             modes = []
             for mode in data["modes"]:
                 modes.append(ResponseMode(mode["name"], mode["modifier"]))
-            return PromptData(data["prefix"], data["suffix"], modes)
+            return PromptData(data["prefix"], data["suffix"], modes, data["default_mode"])
 
     def __get_token(self, token):
         """Get the token to be used for the ChatGPT API.
@@ -173,7 +173,7 @@ class WingmanGPT:
         subprocess.run(command, shell=True)
 
     def execute(self):
-        """Execute the program"""
+        """Execute the program."""
         try:
             response = self.__get_response()
         except Exception as e:
@@ -207,14 +207,6 @@ class WingmanGPT:
 def main(number, noconfirm, token, message, mode):
     """Tool for sending messages to a phone number."""
     # Instantiate WingmanGPT object
-
-    # DEBUG = True
-    # if DEBUG:
-    #     number = '1234557890'
-    #     confirm = None
-    #     token = None
-    #     message = '234234234'
-    #     mode = 'ROMANTI'
     try:
         tgpt = WingmanGPT(number=number, noconfirm=noconfirm, token=token, message=message, mode=mode)
         tgpt.execute()
@@ -223,3 +215,4 @@ def main(number, noconfirm, token, message, mode):
 
 if __name__ == '__main__':
     main()
+    
