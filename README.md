@@ -3,6 +3,8 @@
 ## Overview
 WingmanGPT is a command-line tool that allows you to send text messages that are customly modified by ChatGPT and sent to a specified number. 
 
+Check out the [PyPi](https://pypi.org/project/WingmanGPT/) package.
+
 ### Notice
 `This tool currently only works for Mac users.`
 
@@ -36,7 +38,7 @@ $ which WingmanGPT
 4. Get your API token from [OpenAI](https://chat.openai.com/api/auth/session), and initialize it for the tool. *Make sure you are signed in before doing this. You can get your token by accessing the linked url and copying the value for the 'accessToken' key.*
 
 ```bash
-$ bash make_token.sh [token] # Don't actually put the brackets, just the token 
+$ WingmanGPT make-token [token] # Don't actually put the brackets, just the token 
 $ cat token
 ...
 your token
@@ -45,8 +47,11 @@ your token
 5. **Optional**: make a template message file. This allows you to not have to provide a message as a command-line option.
 
 ```bash
-$ touch message.txt
-$ echo 'My example message' > message.txt
+$ WingmanGPT make-message "My custom message"
+$ cat message.txt
+...
+your message
+...
 ```
 
 
@@ -57,7 +62,7 @@ $ echo 'My example message' > message.txt
 Please note that when running the program, you will get a warning from your Mac asking you if it can send a message. You must click OK for the tool to work.
 
 ```
-Usage: WingmanGPT [OPTIONS]
+Usage: WingmanGPT send [OPTIONS]
 
 REQUIRED:
 (-n, --number) [NUMBER]: 
@@ -75,34 +80,34 @@ OPTIONAL:
 
 (--mode) [MODE]: 
     Modification mode for your message. Check out prompts.json to see the modes the tool actually uses, as well as the default.
-
-HELP:
-(--show-modes): 
-    List all availible modes.
-
-(--help): 
-    Show helpful message.
-
 ```
 ### Example Usage
 
 ```bash
-# Token has already been set from step 4 of installation
-$ WingmanGPT -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs"
+$ WingmanGPT send -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs" -t [your API token]
+# Make a token file for multiple requests (step 4)
+$ WingmanGPT make-token [your API token]
+Token file created.
+# Make a message file for multiple requests (step 5)
+$ WingmanGPT make-message "I want a new dog"
+Message file created.
+# View available modes
+$ WingmanGPT show-modes
+...
+# Send message
+WingmanGPT send -n 1234567890
 ```
-
-
 
 ## ChatGPT Functionality
 
 This tool makes use of the [revChatGPT](https://github.com/acheong08/ChatGPT) open-source project to communicate with ChatGPT. Go check it out!
 
-Everything that is used for the prompt, as well as the different modes, can be found in [prompts.json](prompts.json). 
+Everything that is used for the prompt, as well as the different modes, can be found in [src/prompts.py](src/prompts.py). 
 
 To see all of the availible modes from the command line, you can run:
 
 ```bash
-$ WingmanGPT --show-modes
+$ WingmanGPT show-modes
 ```
 
 ## Contributing

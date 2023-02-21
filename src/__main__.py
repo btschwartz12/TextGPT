@@ -3,39 +3,16 @@
 # pylint: disable=invalid-name,broad-exception-raised,broad-exception-caught
 
 
-from dataclasses import dataclass
-import json
 import os
 import subprocess
 import shlex
-from typing import List
-import click
+import argparse
+from contextlib import redirect_stdout
+from io import StringIO
+
 from revChatGPT.V1 import Chatbot
 
-
-@dataclass
-class ResponseMode():
-    """ResponseMode is a dataclass that holds the data for a response mode."""
-
-    NAME: str
-    DESCRIPTION: str
-    PROMPT_MODIFICATION: str
-
-
-@dataclass
-class PromptData:
-    """PromptData is a dataclass that holds the data for a prompt."""
-
-    PREFIX: str
-    SUFFIX: str
-    MODES: List[ResponseMode]
-    DEFAULT_MODE: str
-
-    def show_modes(self):
-        """Show the modes."""
-        print('AVAILABLE MODES:')
-        for mode in self.MODES:
-            print(f"\t{mode.NAME}: {mode.DESCRIPTION}")
+from src.prompts import prompt_data, PromptData
 
 
 class WingmanGPT:
@@ -46,8 +23,7 @@ class WingmanGPT:
                  noconfirm: bool,
                  token: str,
                  message: str,
-                 mode: ResponseMode,
-                 prompt_data: PromptData):
+                 mode: str):
         """Take a message, give it to chatGPT, send response to number."""
         # Command line arguments
         self.__phone_number = self.__get_phone_number(number)
@@ -153,10 +129,17 @@ class WingmanGPT:
             # Change to bens bc hes rich boi
             "access_token": token
         })
-        # Get the response
+        # Prepare to capture output for errors
+        output = StringIO()
         response = ""
-        for data in chatbot.ask(PROMPT):
-            response = data["message"]
+        with redirect_stdout(output):
+            # Ask ChatGPT for a response
+            for data in chatbot.ask(PROMPT):
+                response = data["message"]
+        # If anything printed from ask(), it is an error
+        captured_output = output.getvalue()
+        if 'invalid_request_error' in captured_output:
+            raise Exception("Invalid API token")
         # Strip the quotes from the response
         response = response[1:-1]
         return response
@@ -181,13 +164,15 @@ class WingmanGPT:
         and then it will send the message.
         """
         try:
+            print('Fetching response from ChatGPT...')
             response = self.__get_response()
         except Exception as e:
             print(e)
             print('Failed to get response from ChatGPT API')
             return
-        # Try to send the message
+        
         try:
+            print("Sending message...")
             if self.__wants_to_confirm:
                 print(f"********\nMessage: {response}\n********")
                 confirm = input("Send message? (y/n): ")
@@ -199,56 +184,65 @@ class WingmanGPT:
         except Exception as e:
             print(f'Failed to send message. \n\n{e}')
 
+def make_token(token):
+    """Make a file named token with the token in it."""
+    with open("token", "w+", encoding='utf-8') as f:
+        f.write(token)
 
-def get_prompt_data() -> PromptData:
-    """Get the prompt data from the prompt_data.json file."""
-    # If prompts.json does not exist, throw an error
-    if not os.path.exists("prompts.json"):
-        raise Exception("prompts.json does not exist")
-    with open("prompts.json", "r", encoding='utf-8') as f:
-        data = json.load(f)
-        modes = []
-        for mode in data["modes"]:
-            modes.append(ResponseMode(mode["name"],
-                                      mode["description"],
-                                      mode["modifier"]))
-        return PromptData(data["prefix"],
-                          data["suffix"],
-                          modes,
-                          data["default_mode"])
+def make_message(message):
+    """Make a file named message.txt with the message in it."""
+    with open("message.txt", "w+", encoding='utf-8') as f:
+        f.write(message)
 
 
-@click.command()
-# Required arguments
-@click.option('-n', '--number', help='Phone number to send the message to.')
-# Optional arguments
-@click.option('-t', '--token', help='ChatGPT API token.')
-# confirmation
-@click.option('--noconfirm', is_flag=True,
-              help='Do not confirm before sending the message.')
-@click.option('-m', '--message', help='Message to send.')
-@click.option('--mode', help='Mode to use for sending the message.')
-@click.option('--show-modes', is_flag=True, help='Show available modes.')
-def main(number, noconfirm, token, message, mode, show_modes):
-    """Tool for sending messages to a phone number."""
-    # Get the prompt data
-    try:
-        prompt_data: PromptData = get_prompt_data()
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")
-        return
-    # If show_modes is true, show the modes and exit
-    if show_modes:
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Tool for sending messages to a phone number.')
+    subparsers = parser.add_subparsers(dest='command')
+
+    # Create parser for normal usage
+    send_parser = subparsers.add_parser('send')
+    send_parser.add_argument('-n', '--number', required=True, help='Phone number to send the message to.')
+    send_parser.add_argument('-t', '--token', help='ChatGPT API token.')
+    send_parser.add_argument('--mode', help='Mode to use for sending the message.')
+    send_parser.add_argument('--noconfirm', action='store_true', help='Do not confirm before sending the message.')
+    send_parser.add_argument('-m', '--message', help='Message to send.')
+
+    # Create parser for make-token command
+    make_token_parser = subparsers.add_parser('make-token')
+    make_token_parser.add_argument('token', help='ChatGPT API token.')
+
+    # Create parser for make-message command
+    make_message_parser = subparsers.add_parser('make-message')
+    make_message_parser.add_argument('message', help='Message to send.')
+
+    # Create parser for show_modes
+    subparsers.add_parser('show-modes')
+
+    args = parser.parse_args()
+
+    if args.command == 'send':
+        # Handle send command
+        try:
+            tgpt = WingmanGPT(number=args.number, noconfirm=args.noconfirm, token=args.token,
+                            message=args.message, mode=args.mode)
+            tgpt.execute()
+        except Exception as e:
+            print(f"Error occurred: {str(e)}")
+    elif args.command == 'make-token':
+        # Handle make-token command
+        make_token(args.token)
+        print('Token file created.')
+    elif args.command == 'make-message':
+        # Handle make-message command
+        make_message(args.message)
+        print('Message file created.')
+    elif args.command == 'show-modes':
+        # Handle show-modes command
         prompt_data.show_modes()
-        return
-    # Make sure phone number is provided
-    if number is None:
-        print("Phone number is required.")
-        return
-    # Instantiate WingmanGPT object
-    try:
-        tgpt = WingmanGPT(number=number, noconfirm=noconfirm, token=token,
-                          message=message, mode=mode, prompt_data=prompt_data)
-        tgpt.execute()
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")
+    else:
+        parser.print_help()
+
+if __name__ == '__main__':
+    main()
