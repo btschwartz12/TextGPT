@@ -68,18 +68,26 @@ OPTIONAL:
     ChatGPT API token. Not required if you make a token file in step 4 of installation.
 
 (-m, --message) [MESSAGE]: 
-    Message to be modified. Not required if you make a message file in step 5 of installation
+    Message to be modified. Not required if you make a message file in step 5 of installation.
 
 (--noconfirm): 
     Optional flag that will send the message without confirmation.
 
 (--mode) [MODE]: 
-    Modification mode for your message. Default is romantic, but check out the [prompt data](prompts.json) to see the modes the tool actually uses.Default is ROMANTIC.
+    Modification mode for your message. Default is romantic, but check out prompts.json to see the modes the tool actually uses.Default is ROMANTIC.
+
+HELP:
+(--show-modes): 
+    List all availible modes.
+
+(--help): 
+    Show helpful message.
 
 ```
 ### Example Usage
 
 ```bash
+# Token has already been set from step 4 of installation
 WingmanGPT -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs"
 ```
 
@@ -89,14 +97,15 @@ WingmanGPT -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs
 
 Everything that is used for the prompt, as well as the different modes, can be found in [prompts.json](prompts.json). 
 
-Here is a short description of each mode:
+To see all of the availible modes from the command line, you can run:
 
-- **ROMANTIC**: Generates a romantic message using ChatGPT.
-- **FUN**: Generates a fun message using ChatGPT.
+```bash
+$ WingmanGPT --show-modes
+```
 
 ## Contributing
 
-add to me :(
+Anybody but Ho Jung Kim is allowed to contribute.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
