@@ -93,7 +93,9 @@ $ WingmanGPT -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about do
 
 
 
-## ChatGPT Prompt
+## ChatGPT Functionality
+
+This tool makes use of the [revChatGPT](https://github.com/acheong08/ChatGPT) open-source project to communicate with ChatGPT. Go check it out!
 
 Everything that is used for the prompt, as well as the different modes, can be found in [prompts.json](prompts.json). 
 
