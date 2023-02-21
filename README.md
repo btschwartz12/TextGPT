@@ -80,7 +80,7 @@ OPTIONAL:
 ### Example Usage
 
 ```bash
-WingmanGPT -n 1234567890 -m "Tell me something about dogs" --mode=FUN --noconfirm
+WingmanGPT -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs"
 ```
 
 
