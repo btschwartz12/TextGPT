@@ -10,32 +10,17 @@ Check out the [PyPi](https://pypi.org/project/WingmanGPT/) package.
 
 ## Install
 
-1. Clone the repository and `cd` to it.
+1. Clone the repository and `cd` to it. Make sure you have python3 ad pip3 installed.
 
 ```bash
-$ git clone https://github.com/btschwartz12/WingmanGPT.git
-$ cd /your/path/to/WingmanGPT
-$ pwd
-/your/path/to/WingmanGPT
+# Optionally make a virtual environment
+$ python3 -m venv env
+$ source env/bin/activate
+# Install the package
+$ pip3 install WingmanGPT
 ```
 
-2. Run the `install.sh` script, using the `source` command, activating the virtual environment
-```bash
-$ source install.sh
-...
-Successfully installed WingmanGPT-1.0.0
-...
-$ echo $VIRTUAL_ENV
-/your/path/to/WingmanGPT/env
-```
-
-3. Verify the package exists in the envirnoment
-```bash
-$ which WingmanGPT
-/your/path/to/WingmanGPT/env/bin/WingmanGPT
-```
-
-4. Get your API token from [OpenAI](https://chat.openai.com/api/auth/session), and initialize it for the tool. *Make sure you are signed in before doing this. You can get your token by accessing the linked url and copying the value for the 'accessToken' key.*
+2. Get your API token from [OpenAI](https://chat.openai.com/api/auth/session), and initialize it for the tool. *Make sure you are signed in before doing this. You can get your token by accessing the linked url and copying the value for the 'accessToken' key.*
 
 ```bash
 $ WingmanGPT make-token [token] # Don't actually put the brackets, just the token 
@@ -44,7 +29,7 @@ $ cat token
 your token
 ...
 ```
-5. **Optional**: make a template message file. This allows you to not have to provide a message as a command-line option.
+3. **Optional**: make a template message file. This allows you to not have to provide a message as a command-line option.
 
 ```bash
 $ WingmanGPT make-message "My custom message"
