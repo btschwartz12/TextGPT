@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "WingmanGPT"
-version = "1.0.1"
+version = "1.0.2"
 description = "A chatbot that uses ChatGPT to help you find a date"
 readme = "README.md"
 authors = [{ name = "Ben Schwartz", email = "btschwartz12@gmail.com" }]
