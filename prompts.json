@@ -5,38 +5,47 @@
     "modes": [
         {
             "name": "ROMANTIC",
+            "description": "Make the message sound more romantic",
             "modifier": "Can you make this sound better to send to my girlfriend?"
         },
         {
             "name": "FUN",
+            "description": "Make the message sound satirical",
             "modifier": "can you make this sound more satirical to send to my girlfriend?"
         },
         {
             "name": "STORY",
+            "description": "Turn the message into a short story",
             "modifier": "can you tell me a short story about this, that is dark yet promising?"
         },
         {
             "name" : "POETIC",
+            "description": "Make the message sound more poetic",
             "modifier" : "Can you make this sound more poetic?"
         },
         {
             "name" : "SEDUCTIVE",
+            "description": "Make the message sound seductive",
             "modifier" : "Can you make this sound like I am trying to lure this girl?"
         },
         {
             "name" : "DEROGATORY",
+            "description": "Make the message sound mean",
             "modifier" : "Can you make this sound like I am trying to piss this person up?"
         },
         {
             "name" : "PERSUASIVE",
+            "description": "Make the message sound more persuasive",
             "modifier" : "Can you make this sound more persuasive?"
         },
         {
             "name" : "BUSINESS",
+            "description": "Make the message sound more formal",
             "modifier" : "Can you make this sound more formal? I am sending this message to my business partner"
         },
         {
             "name" : "SAVAGE",
+            "description": "Make it SAVAGE",
             "modifier" : "Can you make this sound more savage? I am sending this message to someone I dislike"
         }
     ]
