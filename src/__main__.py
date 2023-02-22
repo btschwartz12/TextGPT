@@ -198,11 +198,14 @@ def make_message(message):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Tool for sending messages to a phone number.')
+    """Main function for the program."""
+    msg = "Sends a message to a phone number using ChatGPT."
+    msg += "\n\nTry running --help for each of the below commands for more information."
+    parser = argparse.ArgumentParser(description=msg, epilog="Have fun ;)")
     subparsers = parser.add_subparsers(dest='command')
 
     # Create parser for normal usage
-    send_parser = subparsers.add_parser('send')
+    send_parser = subparsers.add_parser('send', help="Compute and send a message.")
     send_parser.add_argument('-n', '--number', required=True, help='Phone number to send the message to.')
     send_parser.add_argument('-t', '--token', help='ChatGPT API token.')
     send_parser.add_argument('--mode', help='Mode to use for sending the message.')
@@ -210,15 +213,15 @@ def main():
     send_parser.add_argument('-m', '--message', help='Message to send.')
 
     # Create parser for make-token command
-    make_token_parser = subparsers.add_parser('make-token')
+    make_token_parser = subparsers.add_parser('make-token', help='Create a token file.')
     make_token_parser.add_argument('token', help='ChatGPT API token.')
 
     # Create parser for make-message command
-    make_message_parser = subparsers.add_parser('make-message')
+    make_message_parser = subparsers.add_parser('make-message', help='Create a message file.')
     make_message_parser.add_argument('message', help='Message to send.')
 
     # Create parser for show_modes
-    subparsers.add_parser('show-modes')
+    subparsers.add_parser('show-modes', help='Show the available modes.')
 
     args = parser.parse_args()
 
