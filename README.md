@@ -10,7 +10,7 @@ Check out the [PyPi](https://pypi.org/project/WingmanGPT/) package.
 
 ## Install
 
-1. Clone the repository and `cd` to it. Make sure you have python3 ad pip3 installed.
+1. Make sure you have [python3](https://wiki.python.org/moin/BeginnersGuide/Download) ad [pip3](https://pip.pypa.io/en/stable/installation/) installed. You can then install the package directly from pip (we recommend doing so in a virtual environment).
 
 ```bash
 # Optionally make a virtual environment
@@ -20,7 +20,7 @@ $ source env/bin/activate
 $ pip3 install WingmanGPT
 ```
 
-2. Get your API token from [OpenAI](https://chat.openai.com/api/auth/session), and initialize it for the tool. *Make sure you are signed in before doing this. You can get your token by accessing the linked url and copying the value for the 'accessToken' key.*
+2. Get your API token from your [OpenAI session data](https://chat.openai.com/api/auth/session) (copy the value for the `access_token` key). *Make sure you are signed in before doing this. You can get your token by accessing the linked url and copying the value for the 'accessToken' key.*
 
 ```bash
 $ WingmanGPT make-token [token] # Don't actually put the brackets, just the token 
@@ -55,10 +55,10 @@ REQUIRED:
 
 OPTIONAL:
 (-t, --token) [TOKEN]: 
-    ChatGPT API token. Not required if you make a token file in step 4 of installation.
+    ChatGPT API token. Not required if you make a token file in step 2 of installation.
 
 (-m, --message) [MESSAGE]: 
-    Message to be modified. Not required if you make a message file in step 5 of installation.
+    Message to be modified. Not required if you make a message file in step 3 of installation.
 
 (--noconfirm): 
     Optional flag that will send the message without confirmation.
@@ -93,6 +93,22 @@ To see all of the availible modes from the command line, you can run:
 
 ```bash
 $ WingmanGPT show-modes
+```
+
+## Build from Source
+
+If you fork this repo and want to build the package locally, you can run these commands:
+
+```bash
+# Create virtual environment
+python3 -m venv env
+source env/bin/activate
+# Install dependencies and build package
+pip install -r requirements.txt
+pip install -e .
+# Verify installation
+which WingmanGPT
+.../your/path/to/WingmanGPT/env/bin/WingmanGPT
 ```
 
 ## Contributing
