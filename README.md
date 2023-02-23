@@ -3,7 +3,7 @@
 ## Overview
 WingmanGPT is a command-line tool that allows you to send text messages that are customly modified by ChatGPT and sent to a specified number. 
 
-Check out the [PyPi](https://pypi.org/project/WingmanGPT/) package.
+[PyPi](https://pypi.org/project/WingmanGPT/) • [GitHub](https://github.com/btschwartz12/WingmanGPT/)
 
 ### Notice
 `This tool currently only works for Mac users.`
