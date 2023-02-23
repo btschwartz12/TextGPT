@@ -68,17 +68,20 @@ OPTIONAL:
 
 ```bash
 $ WingmanGPT send -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs" -t [your API token]
-# Make a token file for multiple requests (step 4)
+```
+or
+```bash
+# Make a token file for multiple requests (step 2)
 $ WingmanGPT make-token [your API token]
 Token file created.
-# Make a message file for multiple requests (step 5)
+# Make a message file for multiple requests (step 3)
 $ WingmanGPT make-message "I want a new dog"
 Message file created.
 # View available modes
 $ WingmanGPT show-modes
 ...
 # Send message
-WingmanGPT send -n 1234567890
+WingmanGPT send -n 1234567890 --mode=FUN
 ```
 
 ## ChatGPT Functionality
