@@ -34,9 +34,7 @@ your token
 ```bash
 $ WingmanGPT make-message "My custom message"
 $ cat message.txt
-...
-your message
-...
+My custom message
 ```
 
 
