@@ -8,26 +8,23 @@ WingmanGPT is a command-line tool that allows you to send text messages that are
 ### Notice
 `This tool currently only works for Mac users.`
 
+Messages can be generated on any platform, but this tool uses the Messages app on Mac to send them.
+
 ## Install
 
-1. Make sure you have [python3](https://wiki.python.org/moin/BeginnersGuide/Download) ad [pip3](https://pip.pypa.io/en/stable/installation/) installed. You can then install the package directly from pip (we recommend doing so in a virtual environment).
+1. Make sure you have [python3](https://wiki.python.org/moin/BeginnersGuide/Download) and [pip](https://pip.pypa.io/en/stable/installation/) installed. You can then install the package directly from pip.
 
 ```bash
-# Optionally make a virtual environment
-$ python3 -m venv env
-$ source env/bin/activate
-# Install the package
-$ pip3 install WingmanGPT
+$ python3 -m venv env && source env/bin/activate # optional virtual environment
+$ pip install WingmanGPT
 ```
 
 2. Get your API token from your [OpenAI session data](https://chat.openai.com/api/auth/session) (copy the value for the `access_token` key). *Make sure you are signed in before doing this. You can get your token by accessing the linked url and copying the value for the 'accessToken' key.*
 
 ```bash
-$ WingmanGPT make-token [token] # Don't actually put the brackets, just the token 
+$ WingmanGPT make-token <token> 
 $ cat token
-...
-your token
-...
+<token>
 ```
 3. **Optional**: make a template message file. This allows you to not have to provide a message as a command-line option.
 
@@ -36,9 +33,6 @@ $ WingmanGPT make-message "My custom message"
 $ cat message.txt
 My custom message
 ```
-
-
-
 
 ## Usage
 
@@ -63,6 +57,9 @@ OPTIONAL:
 
 (--mode) [MODE]: 
     Modification mode for your message. Check out prompts.json to see the modes the tool actually uses, as well as the default.
+
+(-h, --help): 
+    Show this message and exit.
 ```
 ### Example Usage
 
@@ -72,7 +69,7 @@ $ WingmanGPT send -n 1234567890 --mode=FUN --noconfirm -m "Tell me something abo
 or
 ```bash
 # Make a token file for multiple requests (step 2)
-$ WingmanGPT make-token [your API token]
+$ WingmanGPT make-token <token>
 Token file created.
 # Make a message file for multiple requests (step 3)
 $ WingmanGPT make-message "I want a new dog"
@@ -86,11 +83,11 @@ WingmanGPT send -n 1234567890 --mode=FUN
 
 ## ChatGPT Functionality
 
-This tool makes use of the [revChatGPT](https://github.com/acheong08/ChatGPT) open-source project to communicate with ChatGPT. Go check it out!
+The ChatGPT wrapper class, [GPT](src/GPT.py) was inspired by acheong08's [ChatGPT API](https://github.com/acheong08/ChatGPT).
 
-Everything that is used for the prompt, as well as the different modes, can be found in [src/prompts.py](src/prompts.py). 
+Everything that is used for the prompt, as well as the different modes, can be found in [prompts](src/prompts.py). 
 
-To see all of the availible modes from the command line, you can run:
+To see all of the available modes from the command line, you can run:
 
 ```bash
 $ WingmanGPT show-modes
@@ -102,8 +99,7 @@ If you fork this repo and want to build the package locally, you can run these c
 
 ```bash
 # Create virtual environment
-python3 -m venv env
-source env/bin/activate
+python3 -m venv env && source env/bin/activate
 # Install dependencies and build package
 pip install -r requirements.txt
 pip install -e .
@@ -120,5 +116,4 @@ Anybody except Ho Jung Kim is allowed to contribute.
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
 ## Authors
-- Ben Schwartz & Ryan Baxter
-
+- Ben Schwartz, Ryan Baxter, and Paul Chafetz

@@ -3,16 +3,15 @@
 # pylint: disable=invalid-name,broad-exception-raised,broad-exception-caught
 
 
-import os
-import subprocess
-import shlex
 import argparse
+import os
+import shlex
+import subprocess
 from contextlib import redirect_stdout
 from io import StringIO
 
-from revChatGPT.V1 import Chatbot
-
-from src.prompts import prompt_data, PromptData
+from src.GPT import GPT
+from src.prompts import PromptData, prompt_data
 
 
 class WingmanGPT:
@@ -125,8 +124,7 @@ class WingmanGPT:
         token = self.__token
         # strip any newlines from the token
         token = token.replace("\n", "")
-        chatbot = Chatbot(config={
-            # Change to bens bc hes rich boi
+        chatbot = GPT(config={
             "access_token": token
         })
         # Prepare to capture output for errors
@@ -134,7 +132,7 @@ class WingmanGPT:
         response = ""
         with redirect_stdout(output):
             # Ask ChatGPT for a response
-            for data in chatbot.ask(PROMPT):
+            for data in chatbot.send(PROMPT):
                 response = data["message"]
         # If anything printed from ask(), it is an error
         captured_output = output.getvalue()
