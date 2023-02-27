@@ -72,8 +72,7 @@ class GPT:
             except json.decoder.JSONDecodeError: continue
             
             if not self.__is_valid(line):
-                print(f"Field missing: {line}")
-                continue
+                raise Exception(f"GPT: Field missing: {line}")
             
             message = line["message"]["content"]["parts"][0]
             conversation_id = line["conversation_id"]

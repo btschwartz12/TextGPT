@@ -8,7 +8,7 @@ WingmanGPT is a command-line tool that allows you to send text messages that are
 ### Notice
 `This tool currently only works for Mac users.`
 
-Messages can be generated on any platform, but this tool uses the Messages app on Mac to send them.
+Messages can be generated on any platform, but this tool uses the Messages app on Mac to send them. There are no plans currently to use a SMS API such as Twilio.
 
 ## Install
 
@@ -30,7 +30,7 @@ $ cat token
 
 ```bash
 $ WingmanGPT make-message "My custom message"
-$ cat message.txt
+$ cat message
 My custom message
 ```
 
@@ -64,7 +64,7 @@ OPTIONAL:
 ### Example Usage
 
 ```bash
-$ WingmanGPT send -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs" -t [your API token]
+$ WingmanGPT send -n 1234567890 --mode=FUN --noconfirm -m "Tell me something about dogs" -t <token>
 ```
 or
 ```bash
@@ -83,7 +83,7 @@ WingmanGPT send -n 1234567890 --mode=FUN
 
 ## ChatGPT Functionality
 
-The ChatGPT wrapper class, [GPT](src/GPT.py) was inspired by acheong08's [ChatGPT API](https://github.com/acheong08/ChatGPT).
+The ChatGPT wrapper class, [GPT](src/GPT.py) was inspired by acheong08's work on [ChatGPT API](https://github.com/acheong08/ChatGPT).
 
 Everything that is used for the prompt, as well as the different modes, can be found in [prompts](src/prompts.py). 
 

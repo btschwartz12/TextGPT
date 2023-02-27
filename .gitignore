@@ -1,9 +1,9 @@
 env/
 __pycache__/
+build/
 dist/
 .vscode/
 *egg*/
 .DS_Store
+message
 token
-message.txt
-notes.txt
