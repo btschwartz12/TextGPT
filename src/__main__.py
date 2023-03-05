@@ -3,39 +3,30 @@
 # pylint: disable=invalid-name,broad-exception-raised,broad-exception-caught
 
 
-import os
-import subprocess
-import shlex
 import argparse
-from contextlib import redirect_stdout
-from io import StringIO
+import os
+import shlex
+import subprocess
+import sys
 
-from revChatGPT.V1 import Chatbot
-
-from src.prompts import prompt_data, PromptData
+from src.GPT import GPT
+from src.prompts import PromptData, prompt_data
 
 
 class WingmanGPT:
     """Command-line tool that generates and sends text messages."""
 
-    def __init__(self,
-                 number: str,
-                 noconfirm: bool,
-                 token: str,
-                 message: str,
-                 mode: str):
+    def __init__(self, number: str, noconfirm: bool, token: str, message: str, mode: str) -> None:
         """Take a message, give it to chatGPT, send response to number."""
         # Command line arguments
         self.__phone_number = self.__get_phone_number(number)
         self.__token = self.__get_token(token)
         self.__message = self.__get_message(message)
-        self.__wants_to_confirm = not noconfirm
-        # Prompt data
+        self.__confirm = not noconfirm
         self.__prompt_data: PromptData = prompt_data
-        # Mode
         self.__mode_modification = self.__get_mode_modification(mode)
 
-    def __get_token(self, token):
+    def __get_token(self, token: str) -> str:
         """Get the token to be used for the ChatGPT API.
 
         It will first check to see if the token is passed as an argument.
@@ -54,7 +45,7 @@ class WingmanGPT:
         # Now throw an error
         raise Exception("No token provided or found in token file")
 
-    def __get_phone_number(self, number):
+    def __get_phone_number(self, number: str) -> str:
         """Get the phone number to send the message to.
 
         If the phone nuber is not a string or is not 10 characters long,
@@ -68,34 +59,33 @@ class WingmanGPT:
                 raise Exception("Invalid phone number")
         return number
 
-    def __get_message(self, message):
+    def __get_message(self, message: str) -> str:
         """Get the message to be used for the prompt for ChatGPT.
 
         First check to see if the message is passed as an argument.
-        If not, check to see if there is a message.txt file.
+        If not, check to see if there is a message file.
         If not, throw an error.
         """
         # First see if it is passed as an argument
         if isinstance(message, str) and message != "":
             return message
         # Now check to see if there is a message.txt file
-        if os.path.exists("message.txt"):
-            with open("message.txt", "r", encoding='utf-8') as f:
+        if os.path.exists("message"):
+            with open("message", "r", encoding='utf-8') as f:
                 msg = f.read()
                 if msg != "":
                     return msg
         # Now throw an error
-        raise Exception("No message provided or found in message.txt")
+        raise Exception("No message provided or found in message")
 
-    def __get_mode_modification(self, mode_str) -> str:
+    def __get_mode_modification(self, mode_str: str) -> str:
         """Get response mode to be used for the prompt for ChatGPT.
 
         If no mode is provided, it will default to ROMANTIC.
         If an invalid mode is provided, it will throw an error.
         """
-        available_modes = {response_mode.NAME:
-                           response_mode.PROMPT_MODIFICATION
-                           for response_mode in self.__prompt_data.MODES}
+        available_modes = \
+            {response_mode.NAME: response_mode.PROMPT_MODIFICATION for response_mode in self.__prompt_data.MODES}
 
         if mode_str is None or mode_str == "":
             # Default
@@ -107,40 +97,26 @@ class WingmanGPT:
 
     def __get_prompt(self):
         """Get the prompt to be used for the ChatGPT API."""
-        PROMPT = ""
-
-        PROMPT += " ".join(self.__prompt_data.PREFIX)
-        PROMPT += f" Here is the message: \"{self.__message}\"."
-        PROMPT += " Here is how I want you to modify the message: "
-        PROMPT += f"\"{self.__mode_modification}\"."
-        PROMPT += " ".join(self.__prompt_data.SUFFIX)
-
-        return PROMPT
+        prompt = ""
+        prompt += " ".join(self.__prompt_data.PREFIX)
+        prompt += f" Here is the message: \"{self.__message}\"."
+        prompt += " Here is how I want you to modify the message: "
+        prompt += f"\"{self.__mode_modification}\"."
+        prompt += " ".join(self.__prompt_data.SUFFIX)
+        return prompt
 
     def __get_response(self):
         """Get the ChatGPT Response."""
         # Get the prompt to be used
-        PROMPT = self.__get_prompt()
+        prompt = self.__get_prompt()
         # Configure the ChatGPT API
         token = self.__token
         # strip any newlines from the token
         token = token.replace("\n", "")
-        chatbot = Chatbot(config={
-            # Change to bens bc hes rich boi
-            "access_token": token
-        })
-        # Prepare to capture output for errors
-        output = StringIO()
+        chatbot = GPT(config={ "access_token": token })
         response = ""
-        with redirect_stdout(output):
-            # Ask ChatGPT for a response
-            for data in chatbot.ask(PROMPT):
-                response = data["message"]
-        # If anything printed from ask(), it is an error
-        captured_output = output.getvalue()
-        if 'invalid_request_error' in captured_output:
-            raise Exception("Invalid API token")
-        # Strip the quotes from the response
+        for data in chatbot.send(prompt):
+            response = data["message"]
         response = response[1:-1]
         return response
 
@@ -167,13 +143,12 @@ class WingmanGPT:
             print('Fetching response from ChatGPT...')
             response = self.__get_response()
         except Exception as e:
-            print(e)
-            print('Failed to get response from ChatGPT API')
+            print(f'Failed to get response from ChatGPT API\n{e}', file=sys.stderr)
             return
         
         try:
             print("Sending message...")
-            if self.__wants_to_confirm:
+            if self.__confirm:
                 print(f"********\nMessage: {response}\n********")
                 confirm = input("Send message? (y/n): ")
                 if confirm.lower() != "y":
@@ -182,7 +157,8 @@ class WingmanGPT:
             self.__send_message(response)
             print('Message Sent.')
         except Exception as e:
-            print(f'Failed to send message. \n\n{e}')
+            print(f'Failed to send message.\n{e}', file=sys.stderr)
+
 
 def make_token(token):
     """Make a file named token with the token in it."""
@@ -190,11 +166,9 @@ def make_token(token):
         f.write(token)
 
 def make_message(message):
-    """Make a file named message.txt with the message in it."""
-    with open("message.txt", "w+", encoding='utf-8') as f:
+    """Make a file named message with the message in it."""
+    with open("message", "w+", encoding='utf-8') as f:
         f.write(message)
-
-
 
 
 def main():
@@ -232,7 +206,7 @@ def main():
                             message=args.message, mode=args.mode)
             tgpt.execute()
         except Exception as e:
-            print(f"Error occurred: {str(e)}")
+            print(f"Error occurred:\n{e}", file=sys.stderr)
     elif args.command == 'make-token':
         # Handle make-token command
         make_token(args.token)
